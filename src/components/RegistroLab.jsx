@@ -29,6 +29,13 @@ export default function RegistroLab() {
         const periodo = hora < 12 ? 'AM' : 'PM';
         return `${hora12}:${minuto} ${periodo}`;
     }
+    function formatShortDate(dateString) {
+    // Asegura que la fecha se interprete correctamente añadiendo el timezone
+    const date = new Date(dateString + 'T00:00:00')
+    return date.toLocaleDateString('es-ES', {
+        day: 'numeric', month: 'long', year: 'numeric'
+    })
+}
     useEffect(() => {
         // Aplicar filtros cuando cambian los valores
         let result = registroLabs
@@ -162,7 +169,7 @@ export default function RegistroLab() {
                                         <p className="text-sm text-gray-500">{registro.asignatura_id.descripcion}</p>
                                     </div>
                                     <span className="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-1 rounded-full">
-                                        {new Date(registro.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                        {formatShortDate(registro.fecha)}
                                     </span>
                                 </div>
 
@@ -192,8 +199,8 @@ export default function RegistroLab() {
                                         </div>
 
                                         <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${new Date(registro.fecha) >= new Date()
-                                                ? 'bg-green-100 text-green-800'
-                                                : 'bg-gray-100 text-gray-800'
+                                            ? 'bg-green-100 text-green-800'
+                                            : 'bg-gray-100 text-gray-800'
                                             }`}>
                                             {new Date(registro.fecha) >= new Date() ? 'Próxima' : 'Completada'}
                                         </span>
@@ -207,7 +214,7 @@ export default function RegistroLab() {
                         <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <h3 className="mt-2 text-lg font-medium text-gray-700">No Hay Laboratorios Disponibles</h3>
+                        <h3 className="mt-2 text-lg font-medium text-gray-700">No se encontraron reservaciones</h3>
                         <p className="mt-1 text-sm text-gray-500">Intenta ajustar tus filtros de búsqueda.</p>
                         <button
                             onClick={() => { setSelectedLab(''); setSelectedDate(''); }}
