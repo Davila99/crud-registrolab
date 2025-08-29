@@ -64,14 +64,7 @@ export default function RegistroLab() {
                     <h1 className="text-2xl font-bold text-sky-800 truncate">Consulta, Reservaciones de Laboratorios</h1>
 
                 </div>
-                <div>
-                    {/* <button className="flex items-center gap-2 px-3 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-lg transition-colors text-sm">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-            Nueva Reservación
-        </button> */}
-                </div>
+
             </div>
 
             {/* Panel de Filtros Compacto */}
@@ -143,20 +136,7 @@ export default function RegistroLab() {
 
             {/* Resultados */}
             <div>
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-lg font-semibold text-gray-700">
-                        {filteredLabs.length} {filteredLabs.length === 1 ? 'Reservación' : 'Reservaciones'} encontradas
-                    </h2>
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-500">Ordenar por:</span>
-                        <select className="text-sm border-0 bg-gray-100 rounded-lg py-1.5 pl-3 pr-8 focus:ring-2 focus:ring-sky-500">
-                            <option>Fecha más reciente</option>
-                            <option>Fecha más antigua</option>
-                            <option>Laboratorio (A-Z)</option>
-                        </select>
-                    </div>
-                </div>
-
+                
                 {filteredLabs.length > 0 ? (
                     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                         {filteredLabs.map((registro) => (
