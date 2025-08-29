@@ -7,12 +7,10 @@ function App() {
   return (
     <BrowserRouter>
     <div className="container mx-auto">
-      <Header/>
       <Routes>
         <Route path="/" element={<RegistroLab/>} />
         <Route path="/registro-lab" element={<RegistroLabForm/>} />
         <Route path="/editar-registro-lab/:id" element={<RegistroLabForm/>} />
-        
       </Routes>
     </div>
     </BrowserRouter>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getRegistros } from '../api/registrolab'
+import Header from './Header'
 
 export default function RegistroLab() {
     const [registroLabs, setRegistroLabs] = useState([])
@@ -57,16 +58,7 @@ export default function RegistroLab() {
 
     return (
         <div className='mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-            {/* Encabezado */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                {/* Título y botón */}
-                <div className="flex-1 min-w-0">
-                    <h1 className="text-2xl font-bold text-sky-800 truncate">Consulta, Reservaciones de Laboratorios</h1>
-
-                </div>
-
-            </div>
-
+            <Header />
             {/* Panel de Filtros Compacto */}
             <div className="bg-white p-4 rounded-lg shadow-xs border border-gray-100 mb-6">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
