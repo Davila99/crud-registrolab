@@ -54,9 +54,9 @@ export default function RegistroLabForm() {
             />
           </svg>
           <p className="text-yellow-800 text-sm font-medium">
-            🚧 Esta funcionalidad está en desarrollo. Por ahora no es posible
-            registrar reservaciones.
+            🚧 Esta funcionalidad está en desarrollo. Muy pronto podrás realizar tus solicitudes de reservaciones desde aquí.
           </p>
+
         </div>
 
         {/* Inputs deshabilitados */}
