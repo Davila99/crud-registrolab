@@ -1,61 +1,88 @@
 import { useEffect, useState } from 'react'
 import { getRegistros } from '../api/registrolab'
 import Header from './Header'
+import Swal from "sweetalert2";
 
 export default function RegistroLab() {
-    const [registroLabs, setRegistroLabs] = useState([])
-    const [filteredLabs, setFilteredLabs] = useState([])
-    const [selectedLab, setSelectedLab] = useState('')
-    const [selectedDate, setSelectedDate] = useState('')
-    const [labsOptions, setLabsOptions] = useState([])
+  const [loading, setLoading] = useState(true);
+  const [registroLabs, setRegistroLabs] = useState([]);
+  const [filteredLabs, setFilteredLabs] = useState([]);
+  const [selectedLab, setSelectedLab] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
+  const [labsOptions, setLabsOptions] = useState([]);
 
-    const loadRegistroLab = async () => {
-        const response = await getRegistros()
-        setRegistroLabs(response.data)
-        setFilteredLabs(response.data)
-
-        // Extraer laboratorios únicos para el filtro
-        const uniqueLabs = [...new Set(
-            response.data.map(registro => registro.laboratorio_id.descripcion)
-        )]
-        setLabsOptions(uniqueLabs)
+  // Mostrar u ocultar SweetAlert cuando cambie `loading`
+  useEffect(() => {
+    if (loading) {
+      Swal.fire({
+        title: "Cargando reservaciones...",
+        text: "Por favor espera",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    } else {
+      Swal.close();
     }
+  }, [loading]);
 
-    useEffect(() => {
-        loadRegistroLab()
-    }, [])
-    function formatearHora12(hora24) {
-        const [hora, minuto] = hora24.split(':');
-        const hora12 = hora % 12 || 12;
-        const periodo = hora < 12 ? 'AM' : 'PM';
-        return `${hora12}:${minuto} ${periodo}`;
+  // Cargar datos de la API
+  const loadRegistroLab = async () => {
+    try {
+      const response = await getRegistros();
+      setRegistroLabs(response.data);
+      setFilteredLabs(response.data);
+
+      // Extraer laboratorios únicos para el filtro
+      const uniqueLabs = [...new Set(
+        response.data.map(registro => registro.laboratorio_id.descripcion)
+      )];
+      setLabsOptions(uniqueLabs);
+    } catch (error) {
+      console.error("Error cargando registros:", error);
+      Swal.fire("Error", "No se pudo cargar la información", "error");
+    } finally {
+      setLoading(false); // cerrar loading aunque falle
     }
-    function formatShortDate(dateString) {
-    // Asegura que la fecha se interprete correctamente añadiendo el timezone
-    const date = new Date(dateString + 'T00:00:00')
+  };
+
+  useEffect(() => {
+    loadRegistroLab();
+  }, []);
+
+  function formatearHora12(hora24) {
+    const [hora, minuto] = hora24.split(':');
+    const hora12 = hora % 12 || 12;
+    const periodo = hora < 12 ? 'AM' : 'PM';
+    return `${hora12}:${minuto} ${periodo}`;
+  }
+
+  function formatShortDate(dateString) {
+    const date = new Date(dateString + 'T00:00:00');
     return date.toLocaleDateString('es-ES', {
-        day: 'numeric', month: 'long', year: 'numeric'
-    })
-}
-    useEffect(() => {
-        // Aplicar filtros cuando cambian los valores
-        let result = registroLabs
+      day: 'numeric', month: 'long', year: 'numeric'
+    });
+  }
 
-        if (selectedLab) {
-            result = result.filter(registro =>
-                registro.laboratorio_id.descripcion === selectedLab
-            )
-        }
+  // Aplicar filtros
+  useEffect(() => {
+    let result = registroLabs;
 
-        if (selectedDate) {
-            result = result.filter(registro =>
-                registro.fecha === selectedDate
-            )
-        }
+    if (selectedLab) {
+      result = result.filter(registro =>
+        registro.laboratorio_id.descripcion === selectedLab
+      );
+    }
 
-        setFilteredLabs(result)
-    }, [selectedLab, selectedDate, registroLabs])
+    if (selectedDate) {
+      result = result.filter(registro =>
+        registro.fecha === selectedDate
+      );
+    }
 
+    setFilteredLabs(result);
+  }, [selectedLab, selectedDate, registroLabs]);
     return (
         <div className='mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
             <Header />
