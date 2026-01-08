@@ -2,9 +2,31 @@ import { useEffect, useState } from "react";
 import { Eye } from "lucide-react";
 import { getActivities } from "../api/registrolab";
 
+const formatHour12 = (value) => {
+  if (!value || typeof value !== "string") return "—";
+  const match = value.match(/^([0-1]?\d|2[0-3]):([0-5]\d)$/);
+  if (!match) return "—";
+  const hour24 = parseInt(match[1], 10);
+  const minutes = match[2];
+  const period = hour24 >= 12 ? "PM" : "AM";
+  const hour12 = hour24 % 12 || 12;
+  return `${hour12}:${minutes} ${period}`;
+};
+
 const formatDateEs = (value) => {
   if (!value) return "Fecha no disponible";
-  const parsed = new Date(value);
+  let parsed;
+  if (value instanceof Date) {
+    parsed = value;
+  } else if (typeof value === "string") {
+    const base = value.includes("T") ? value : `${value}T00:00:00`;
+    parsed = new Date(base);
+  } else {
+    return "Fecha no disponible";
+  }
+
+  if (isNaN(parsed)) return "Fecha no disponible";
+
   return parsed.toLocaleDateString("es-ES", {
     day: "numeric",
     month: "long",
