@@ -2,6 +2,7 @@ import { BrowserRouter,Route,Routes } from "react-router-dom"
 import RegistroLab from "./components/RegistroLab"
 import RegistroLabForm from "./components/RegistroLabForm"
 import Header from "./components/Header"
+import ActivityCards from "./components/ActivityCards"
 function App() {
 
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<RegistroLab/>} />
         <Route path="/registro-lab" element={<RegistroLabForm/>} />
         <Route path="/editar-registro-lab/:id" element={<RegistroLabForm/>} />
+       <Route path="?actividades" element={<ActivityCards/>} />
       </Routes>
     </div>
     </BrowserRouter>
