@@ -27,7 +27,7 @@ export default function Navbar() {
   };
 
   const onSubmitPin = () => {
-    if (pin === "123456") {
+    if (pin === "202631") {
       setSupportOpen(false);
       navigate("/actividades");
     } else {
