@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const registroLabApi = axios.create({
-  baseURL: "https://davila.pythonanywhere.com/api/registro/"
+  baseURL: "https://davila.pythonanywhere.com/api/registros/"
 });
 export const getRegistros = () => registroLabApi.get();
 
