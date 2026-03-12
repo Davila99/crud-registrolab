@@ -95,7 +95,10 @@ export default function ActivityCards() {
                       type="button"
                       aria-label="Ver detalles de la actividad"
                       className="inline-flex items-center justify-center h-8 w-8 rounded-full border border-gray-200 text-[#005a8d] hover:bg-[#e8f4ff] hover:border-[#cfe6ff] transition-colors"
-                      onClick={() => { setSelected(activity); setOpen(true); }}
+                      onClick={() => {
+                        setSelected(activity);
+                        setOpen(true);
+                      }}
                     >
                       <Eye className="h-4 w-4" />
                     </button>
@@ -120,7 +123,10 @@ export default function ActivityCards() {
             <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 p-6 transform transition-all duration-200 animate-scale-in">
               <div className="flex items-start justify-between">
                 <div>
-                  <h2 id="actividad-modal-title" className="text-2xl font-semibold text-[#005a8d]">
+                  <h2
+                    id="actividad-modal-title"
+                    className="text-2xl font-semibold text-[#005a8d]"
+                  >
                     {selected.nombre_evento}
                   </h2>
                   <p className="text-sm text-gray-500">
@@ -135,7 +141,10 @@ export default function ActivityCards() {
               <div className="mt-4 text-sm text-gray-700">
                 <p className="font-medium mb-1">Descripción de asistencia</p>
                 <p className="leading-relaxed">
-                  {selected.descripcion_evento || selected.descripcion || selected.descripcion_asistencia || "Sin descripción"}
+                  {selected.descripcion_evento ||
+                    selected.descripcion ||
+                    selected.descripcion_asistencia ||
+                    "Sin descripción"}
                 </p>
               </div>
 
@@ -155,4 +164,3 @@ export default function ActivityCards() {
     </div>
   );
 }
-    

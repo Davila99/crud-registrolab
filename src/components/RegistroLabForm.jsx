@@ -23,136 +23,68 @@ export default function RegistroLabForm() {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white shadow-lg rounded-2xl p-8">
+    <div className="max-w-lg mx-auto bg-white shadow-2xl rounded-3xl p-8 border-t-[12px] border-blue-900">
       <form onSubmit={handleSubmit}>
-        {/* Título */}
-        <h1 className="flex flex-col items-center text-sky-900 mb-6">
-          <span className="text-3xl font-extrabold flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <h1 className="flex flex-col items-center text-blue-900 mb-8 text-center">
+          <div className="bg-blue-50 p-3 rounded-full mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            Nueva Reservación de Laboratorio
-          </span>
-          <span className="text-base font-medium text-gray-500 mt-1">
-            Completa el formulario para registrar tu solicitud
-          </span>
+          </div>
+          <span className="text-3xl font-black tracking-tight">Nueva Reservación</span>
+          <span className="text-xs font-bold text-gray-400 mt-1 uppercase tracking-[0.2em]">Sistema de Laboratorios</span>
         </h1>
 
-        {/* Alerta de desarrollo */}
-        <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-xl flex items-start gap-3 shadow-sm">
-          <svg
-            className="w-6 h-6 text-yellow-500 mt-0.5 flex-shrink-0"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <p className="text-yellow-800 text-sm font-medium">
-            🚧 Esta funcionalidad está en desarrollo. Muy pronto podrás realizar tus solicitudes de reservaciones desde aquí.
+        <div className="mb-8 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-xl flex items-start gap-3">
+          <span className="text-xl">⚠️</span>
+          <p className="text-yellow-900 text-xs font-bold leading-snug">
+            SISTEMA EN MANTENIMIENTO: El formulario de registro se habilitará tras la sincronización de la base de datos.
           </p>
-
         </div>
 
-        {/* Inputs deshabilitados */}
-        <div className="grid gap-5 opacity-70 pointer-events-none select-none">
+        <div className="grid gap-6 opacity-40 pointer-events-none select-none">
           <div>
-            <label className="block text-sm font-semibold text-gray-700">
-              Carrera
-            </label>
-            <select
-              name="carrera"
-              value={form.carrera}
-              onChange={handleChange}
-              className="w-full mt-1 p-2 border border-gray-300 rounded-lg bg-gray-100"
-              disabled
-            >
+            <label className="block text-xs font-black text-blue-900 uppercase mb-2 ml-1">Carrera Institucional</label>
+            <select className="w-full p-4 border-2 border-gray-100 rounded-2xl bg-gray-50 font-medium" disabled>
               <option value="">Seleccione la carrera</option>
-              {carreras.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
+              {carreras.map((c) => (<option key={c} value={c}>{c}</option>))}
             </select>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700">
-              Asignatura
-            </label>
-            <select
-              name="asignatura"
-              value={form.asignatura}
-              onChange={handleChange}
-              className="w-full mt-1 p-2 border border-gray-300 rounded-lg bg-gray-100"
-              disabled
-            >
+            <label className="block text-xs font-black text-blue-900 uppercase mb-2 ml-1">Asignatura</label>
+            <select className="w-full p-4 border-2 border-gray-100 rounded-2xl bg-gray-50 font-medium" disabled>
               <option value="">Seleccione la asignatura</option>
-              {asignaturas.map((a) => (
-                <option key={a} value={a}>{a}</option>
-              ))}
+              {asignaturas.map((a) => (<option key={a} value={a}>{a}</option>))}
             </select>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700">
-              Docente
-            </label>
-            <select
-              name="docente"
-              value={form.docente}
-              onChange={handleChange}
-              className="w-full mt-1 p-2 border border-gray-300 rounded-lg bg-gray-100"
-              disabled
-            >
+            <label className="block text-xs font-black text-blue-900 uppercase mb-2 ml-1">Docente Responsable</label>
+            <select className="w-full p-4 border-2 border-gray-100 rounded-2xl bg-gray-50 font-medium" disabled>
               <option value="">Seleccione el docente</option>
-              {docentes.map((d) => (
-                <option key={d} value={d}>{d}</option>
-              ))}
+              {docentes.map((d) => (<option key={d} value={d}>{d}</option>))}
             </select>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700">
-                Hora de Inicio
-              </label>
-              <input
-                type="time"
-                name="horaInicio"
-                value={form.horaInicio}
-                onChange={handleChange}
-                className="w-full mt-1 p-2 border border-gray-300 rounded-lg bg-gray-100"
-                disabled
-              />
+              <label className="block text-xs font-black text-blue-900 uppercase mb-2 ml-1">Entrada</label>
+              <input type="time" className="w-full p-4 border-2 border-gray-100 rounded-2xl bg-gray-50" disabled />
             </div>
-
             <div>
-              <label className="block text-sm font-semibold text-gray-700">
-                Hora de Fin
-              </label>
-              <input
-                type="time"
-                name="horaFin"
-                value={form.horaFin}
-                onChange={handleChange}
-                className="w-full mt-1 p-2 border border-gray-300 rounded-lg bg-gray-100"
-                disabled
-              />
+              <label className="block text-xs font-black text-blue-900 uppercase mb-2 ml-1">Salida</label>
+              <input type="time" className="w-full p-4 border-2 border-gray-100 rounded-2xl bg-gray-50" disabled />
             </div>
           </div>
         </div>
 
-        {/* Botón deshabilitado */}
         <button
           type="button"
           disabled
-          className="w-full mt-6 bg-gray-400 text-white font-medium px-4 py-2.5 rounded-xl shadow-sm cursor-not-allowed"
+          className="w-full mt-10 bg-gray-100 text-gray-400 font-black px-4 py-4 rounded-2xl border-2 border-dashed border-gray-200 uppercase tracking-widest text-sm"
         >
-          Guardar Registro
+          Módulo Bloqueado
         </button>
       </form>
     </div>

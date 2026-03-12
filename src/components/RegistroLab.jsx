@@ -11,12 +11,11 @@ export default function RegistroLab() {
   const [selectedDate, setSelectedDate] = useState('');
   const [labsOptions, setLabsOptions] = useState([]);
 
-  // Control del loading con SweetAlert
   useEffect(() => {
     if (loading) {
       Swal.fire({
         title: "Cargando reservaciones...",
-        text: "Conectando con PythonAnywhere",
+        text: "Conectando con El Servidor...",
         allowOutsideClick: false,
         didOpen: () => { Swal.showLoading(); },
       });
@@ -28,19 +27,14 @@ export default function RegistroLab() {
   const loadRegistroLab = async () => {
     try {
       const response = await getRegistros();
-      
-      // Ajuste para Django: leemos directo de .data o de .results
       const dataRaw = response.data.results || response.data || [];
-      
       setRegistroLabs(dataRaw);
       setFilteredLabs(dataRaw);
 
-      // Extraer laboratorios para el filtro (Usando 'laboratorio.descripcion')
       const uniqueLabs = [...new Set(
         dataRaw.map(reg => reg.laboratorio?.descripcion).filter(Boolean)
       )];
       setLabsOptions(uniqueLabs);
-
     } catch (error) {
       console.error("Error en la petición:", error);
       Swal.fire("Error", "No se pudo conectar con el servidor", "error");
@@ -53,7 +47,6 @@ export default function RegistroLab() {
     loadRegistroLab();
   }, []);
 
-  // Formateadores de ayuda
   function formatearHora12(hora24) {
     if (!hora24) return "N/A";
     const [hora, minuto] = hora24.split(':');
@@ -71,18 +64,10 @@ export default function RegistroLab() {
     });
   }
 
-  // Lógica de filtrado corregida
   useEffect(() => {
     let result = registroLabs;
-
-    if (selectedLab) {
-      result = result.filter(reg => reg.laboratorio?.descripcion === selectedLab);
-    }
-
-    if (selectedDate) {
-      result = result.filter(reg => reg.fecha === selectedDate);
-    }
-
+    if (selectedLab) result = result.filter(reg => reg.laboratorio?.descripcion === selectedLab);
+    if (selectedDate) result = result.filter(reg => reg.fecha === selectedDate);
     setFilteredLabs(result);
   }, [selectedLab, selectedDate, registroLabs]);
 
@@ -90,7 +75,6 @@ export default function RegistroLab() {
     <div className='mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
       <Header />
 
-      {/* Panel de Filtros */}
       <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
           <div className="md:col-span-5">
@@ -128,59 +112,74 @@ export default function RegistroLab() {
         </div>
       </div>
 
-      {/* Grid de Tarjetas */}
       <div>
         {filteredLabs.length > 0 ? (
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-            {filteredLabs.map((registro) => (
-              <div key={registro.id} className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-lg font-bold text-sky-800">
-                      {registro.laboratorio?.descripcion || "Lab sin nombre"}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      {registro.asignatura?.descripcion || "Sin asignatura"}
-                    </p>
-                  </div>
-                  <span className="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-1 rounded-full">
-                    {formatShortDate(registro.fecha)}
-                  </span>
-                </div>
+            {filteredLabs.map((registro, index) => {
+              
+              // LÓGICA DE COLORES: index % 3 nos da 0, 1 o 2
+              const colorPos = index % 3;
+              let borderClass = "border-blue-900"; // Izquierda (Azul)
+              let textClass = "text-blue-900";
+              let labelClass = "bg-blue-100 text-blue-800";
 
-                <div className="space-y-3 text-gray-700">
-                  <div className="flex items-start">
+              if (colorPos === 1) {
+                borderClass = "border-yellow-400"; // Centro (Amarillo)
+                textClass = "text-yellow-700";
+                labelClass = "bg-yellow-100 text-yellow-800";
+              } else if (colorPos === 2) {
+                borderClass = "border-green-600"; // Derecha (Verde)
+                textClass = "text-green-700";
+                labelClass = "bg-green-100 text-green-800";
+              }
+
+              return (
+                <div 
+                  key={registro.id} 
+                  // Usamos border-t-8 para que el color se note arriba
+                  className={`bg-white p-5 rounded-xl shadow-sm border-t-8 ${borderClass} hover:shadow-md transition-shadow`}
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 className={`text-lg font-bold ${textClass}`}>
+                        {registro.laboratorio?.descripcion || "Lab sin nombre"}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        {registro.asignatura?.descripcion || "Sin asignatura"}
+                      </p>
+                    </div>
+                    <span className={`${labelClass} text-[10px] font-bold px-2 py-1 rounded-full uppercase`}>
+                      {formatShortDate(registro.fecha)}
+                    </span>
+                  </div>
+
+                  <div className="space-y-3 text-gray-700">
                     <p className="text-sm">
-                      <span className='font-medium text-sky-600'>Docente: </span>
+                      <span className='font-bold text-gray-400 uppercase text-[10px]'>Docente:</span><br/>
                       {registro.docente?.nombre || "No asignado"}
                     </p>
-                  </div>
 
-                  <div className="flex items-start">
                     <p className="text-sm">
-                      <span className='font-medium text-sky-600'>Carrera: </span>
+                      <span className='font-bold text-gray-400 uppercase text-[10px]'>Carrera:</span><br/>
                       {registro.carrera?.descripcion || "N/A"}
                     </p>
-                  </div>
 
-                  <div className="flex justify-between items-center pt-3 mt-3 border-t border-gray-100">
-                    <div className="flex items-center text-gray-600">
-                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center gap-2 pt-3 mt-3 border-t border-gray-100 text-gray-600">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span className="text-sm font-medium">
+                      <span className="text-sm font-bold">
                         {formatearHora12(registro.hora_inicio)} - {formatearHora12(registro.hora_fin)}
                       </span>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
             <h3 className="text-lg font-medium text-gray-700">No se encontraron reservaciones</h3>
-            <p className="text-sm text-gray-500">Asegúrate de que la API en PythonAnywhere tenga datos.</p>
           </div>
         )}
       </div>

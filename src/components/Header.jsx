@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react"; // iconos (hamburguesa y cerrar)
+import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -36,35 +36,33 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white shadow-md py-4 mb-4">
+    <nav className="bg-skiblue shadow-md border-b-4 border-yellow-400 py-4 mb-4">
       <div className="container mx-auto flex justify-between items-center px-4">
-        {/* Logo / título */}
         <Link
           to="/"
-          className="text-xl md:text-2xl font-extrabold text-green-700 hover:text-green-800 transition-colors"
+          className="text-xl md:text-2xl font-extrabold text-blue-900 hover:text-blue-700 transition-colors"
         >
-          Consulta & Reservaciones
+          URACCAN.<span className="text-yellow-400">Reservation.</span>
+          <span className ="text-green-600">Lab</span>
         </Link>
 
-        {/* Botón hamburguesa (solo en móvil) */}
         <button
-          className="md:hidden text-green-700 focus:outline-none"
+          className="md:hidden text-blue-900 focus:outline-none"
           onClick={() => setOpen(!open)}
         >
           {open ? <X size={28} /> : <Menu size={28} />}
         </button>
 
-        {/* Acciones en desktop */}
         <div className="hidden md:flex items-center gap-4">
           <Link
             to="/registro-lab"
-            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl shadow-sm transition-all"
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl shadow-md transition-all font-semibold"
           >
             Nuevo Registro
           </Link>
           <button
             type="button"
-            className="px-4 py-2 rounded-xl border border-green-600 text-green-700 hover:bg-green-50 shadow-sm transition-all"
+            className="px-4 py-2 rounded-xl border-2 border-blue-900 text-blue-900 hover:bg-blue-50 transition-all font-medium"
             onClick={onOpenSupport}
           >
             Soporte
@@ -72,19 +70,18 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Menú desplegable en móvil */}
       {open && (
-        <div className="md:hidden px-4 mt-2 space-y-2">
+        <div className="md:hidden px-4 mt-2 space-y-2 pb-4">
           <Link
             to="/registro-lab"
-            className="block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl shadow-sm transition-all"
+            className="block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-center shadow-sm"
             onClick={() => setOpen(false)}
           >
             Nuevo Registro
           </Link>
           <button
             type="button"
-            className="block w-full border border-green-600 text-green-700 px-4 py-2 rounded-xl shadow-sm transition-all hover:bg-green-50"
+            className="block w-full border-2 border-blue-900 text-blue-900 px-4 py-2 rounded-xl hover:bg-blue-50"
             onClick={() => { setOpen(false); onOpenSupport(); }}
           >
             Soporte
@@ -93,50 +90,35 @@ export default function Navbar() {
       )}
 
       {supportOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="support-modal-title"
-        >
-          <div className="absolute inset-0 bg-black/50" onClick={onCloseSupport} />
-          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6">
-            <div className="flex items-start justify-between">
-              <h2 id="support-modal-title" className="text-xl font-semibold text-green-700">Acceso a Soporte</h2>
-            </div>
-            <p className="mt-1 text-sm text-gray-600">Ingresa el PIN de 6 dígitos para continuar.</p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-blue-900/40 backdrop-blur-sm" onClick={onCloseSupport} />
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 border-t-8 border-blue-900">
+            <h2 className="text-xl font-bold text-blue-900">Acceso a Soporte</h2>
+            <p className="mt-1 text-sm text-gray-500">Ingresa el PIN de 6 dígitos para continuar.</p>
 
             <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="pin-input">PIN</label>
+              <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Código PIN</label>
               <input
-                id="pin-input"
                 type="tel"
                 inputMode="numeric"
-                pattern="[0-9]*"
                 maxLength={6}
                 value={pin}
                 onChange={onChangePin}
-                className={`w-full rounded-lg px-3 py-2 border text-lg tracking-widest text-center ${error ? "border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500" : "border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600"}`}
+                className={`w-full rounded-xl px-3 py-3 border-2 text-2xl tracking-[1em] text-center ${error ? "border-red-500 focus:ring-red-500" : "border-gray-100 focus:ring-blue-900"}`}
                 placeholder="••••••"
-                aria-invalid={Boolean(error)}
-                aria-describedby={error ? "pin-error" : undefined}
               />
-              {error && (
-                <p id="pin-error" className="mt-2 text-sm text-red-600">{error}</p>
-              )}
+              {error && <p className="mt-2 text-sm text-red-600 font-medium text-center">{error}</p>}
             </div>
 
             <div className="mt-6 flex justify-end gap-3">
               <button
-                type="button"
-                className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 text-gray-500 font-semibold hover:text-gray-700"
                 onClick={onCloseSupport}
               >
                 Cancelar
               </button>
               <button
-                type="button"
-                className="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition-colors"
+                className="px-6 py-2 rounded-xl bg-blue-900 text-white hover:bg-blue-800 transition-colors shadow-lg"
                 onClick={onSubmitPin}
               >
                 Acceder
