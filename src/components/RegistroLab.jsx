@@ -16,7 +16,7 @@ export default function RegistroLab() {
     if (loading) {
       Swal.fire({
         title: "Cargando reservaciones...",
-        text: "Conectando con PythonAnywhere",
+        text: "Espere mientras se obtienen los datos",
         allowOutsideClick: false,
         didOpen: () => { Swal.showLoading(); },
       });
