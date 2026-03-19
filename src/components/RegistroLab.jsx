@@ -215,11 +215,9 @@ export default function RegistroLab() {
         ) : (
           <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
             <h3 className="text-lg font-medium text-gray-700">
-              No se encontraron reservaciones
+              El {selectedLab} no tiene reservaciones para la fecha
+              seleccionada.
             </h3>
-            <p className="text-sm text-gray-500">
-              Asegúrate de que la API en PythonAnywhere tenga datos.
-            </p>
           </div>
         )}
       </div>
